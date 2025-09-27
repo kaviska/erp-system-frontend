@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {HasPermissionDirective} from '../../../../../directives/has-permission.directive'
 
 interface MenuItem {
   title: string;
   icon?: string;
+  permission?: string;
   route?: string;
   active?: boolean;
   children?: MenuItem[];
@@ -17,7 +19,7 @@ interface MenuItem {
 
 @Component({
   selector: 'app-menu',
-  imports: [CommonModule],
+  imports: [CommonModule,HasPermissionDirective],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
@@ -33,16 +35,23 @@ export class MenuComponent {
       children: [
         {
           title: "Users" ,
-          route : '/dashboard/users'
+          route : '/dashboard/users',
+          permission: "always-allow"
         },
         {
           title: "Roles & Permissions" ,
-          route : '/dashboard/roles-permissions'
+          route : '/dashboard/roles-permissions',
+          permission: "always-allow"
         },
         {
           title: "User Add",
-          route: '/dashboard/user-add'
+          route: '/dashboard/user-add',
+          permission: "always-allow"
 
+        },
+        {
+          title: "temp",
+          permission: 'create.account.*'
         }
       ]
     }

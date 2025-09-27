@@ -51,7 +51,10 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders() {
-    const token = localStorage.getItem('auth_token');
+    let token = '';
+    if (typeof window !== 'undefined' && window.localStorage) {
+      token = localStorage.getItem('auth_token') || '';
+    }
     return {
       'Authorization': `Bearer ${token}`
     };

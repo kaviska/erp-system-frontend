@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { DefaultComponent } from '../../components/layouts/default/default.component';
+import { HasPermissionDirective } from '../../directives/has-permission.directive';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [DefaultComponent],
+  imports: [HasPermissionDirective],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

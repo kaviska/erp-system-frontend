@@ -41,7 +41,7 @@
             [class.show]="menuItem.active"
           >
             <!--begin:Menu link-->
-            <span class="menu-link">
+            <span class="menu-link" appHasPermission="{{menuItem.permission}}">
               <span class="menu-icon" *ngIf="menuItem.icon">
                 <i [class]="menuItem.icon">
                   <span class="path1"></span>
@@ -66,6 +66,7 @@
                     class="menu-link"
                     [class.active]="subItem.active"
                     [href]="subItem.route"
+                    appHasPermission="{{subItem.permission}}"
                   >
                     <span class="menu-bullet">
                       <span class="bullet bullet-dot"></span>

@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
+// ================== Interfaces ===================
 export interface LoginRequest {
   email: string;
   password: string;
@@ -80,22 +81,17 @@ export interface LoginResponse {
   };
 }
 
+// Other responses (for reset/otp etc.)
 export interface ForgotPasswordResponse {
   status: string;
   message: string;
-  data: {
-    email: string;
-    expires_in: number;
-  };
+  data: { email: string; expires_in: number };
 }
 
 export interface VerifyOtpResponse {
   status: string;
   message: string;
-  data: {
-    email: string;
-    verified: boolean;
-  };
+  data: { email: string; verified: boolean };
 }
 
 export interface ResetPasswordResponse {
@@ -121,6 +117,7 @@ export interface ErrorResponse {
   data: string;
 }
 
+// ================== Service ===================
 @Injectable({
   providedIn: 'root',
 })
@@ -128,14 +125,12 @@ export class AuthService {
   private apiUrl = environment.apiUrl;
   private tokenKey = 'auth_token';
   private userKey = 'auth_user';
-  private user:User|null=null;
+  private expiryKey = 'auth_expiry';
+  private user: User | null = null;
 
   private currentUserSubject = new BehaviorSubject<User | null>(
     this.getCurrentUser()
   );
-  private serUser(user:User){
-    this.user=user
-  }
   public currentUser$ = this.currentUserSubject.asObservable();
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(
@@ -148,88 +143,88 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
+  // ----------------- Auth Methods -----------------
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http
-      .post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials, {
-        headers,
-      })
+      .post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials, { headers })
       .pipe(
         tap((response) => {
           if (response.status === 'success') {
             this.setToken(response.data.token);
             this.setUser(response.data.user);
+
             this.currentUserSubject.next(response.data.user);
             this.isAuthenticatedSubject.next(true);
-            this.setUser(response.data.user);
-           
-            //add expire date in localstroage up to 3 days
           }
         })
       );
   }
 
   logout(): void {
-    // Get token before clearing it for server logout call
     const currentToken = this.getToken();
-    
-    // Clear local state immediately
+
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
-    
-    // Clear local storage immediately to ensure logout works even if API fails
+
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(this.tokenKey);
       localStorage.removeItem(this.userKey);
+      localStorage.removeItem(this.expiryKey);
     }
 
-    // Make API call to logout on server side (optional cleanup)
     if (currentToken) {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${currentToken}`,
       });
 
-      this.http
-        .get(`${this.apiUrl}/auth/logout`, { headers })
-        .subscribe({
-          next: (response) => {
-            console.log('Server logout successful', response);
-          },
-          error: (error) => {
-            console.error('Server logout error (but local logout completed):', error);
-            // Local logout is already complete, so this error doesn't matter
-          },
-        });
+      this.http.get(`${this.apiUrl}/auth/logout`, { headers }).subscribe({
+        next: (res) => console.log('Server logout successful', res),
+        error: (err) =>
+          console.error('Server logout error (local logout still done):', err),
+      });
     }
   }
 
+  // ----------------- Token & User -----------------
   private setToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.tokenKey, token);
+      const expiry = new Date().getTime() + 3 * 24 * 60 * 60 * 1000; // 3 days
+      localStorage.setItem(this.expiryKey, expiry.toString());
     }
   }
 
   public getToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
+      const expiry = localStorage.getItem(this.expiryKey);
+      if (expiry && new Date().getTime() > parseInt(expiry, 10)) {
+        this.logout(); // expired
+        return null;
+      }
       return localStorage.getItem(this.tokenKey);
     }
     return null;
   }
 
   private setUser(user: User): void {
+    this.user = user;
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.userKey, JSON.stringify(user));
     }
   }
 
   public getCurrentUser(): User | null {
+    if (this.user) return this.user;
+
     if (isPlatformBrowser(this.platformId)) {
       const userJson = localStorage.getItem(this.userKey);
-      return userJson ? JSON.parse(userJson) : null;
+      if (userJson) {
+        this.user = JSON.parse(userJson);
+        return this.user;
+      }
     }
     return null;
   }
@@ -239,7 +234,6 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean {
-   
     return this.hasToken();
   }
 
@@ -251,32 +245,20 @@ export class AuthService {
     });
   }
 
-  // Password Reset Methods
+  // ----------------- Password Reset -----------------
   forgotPassword(email: string): Observable<ForgotPasswordResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    const payload: ForgotPasswordRequest = { email };
-
     return this.http.post<ForgotPasswordResponse>(
       `${this.apiUrl}/auth/forgot-password`,
-      payload,
-      { headers }
+      { email },
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
 
   verifyOtp(email: string, otp: string): Observable<VerifyOtpResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    const payload: VerifyOtpRequest = { email, otp };
-
     return this.http.post<VerifyOtpResponse>(
       `${this.apiUrl}/auth/verify-otp`,
-      payload,
-      { headers }
+      { email, otp },
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
 
@@ -285,53 +267,48 @@ export class AuthService {
     password: string,
     passwordConfirmation: string
   ): Observable<ResetPasswordResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    const payload: ResetPasswordRequest = {
-      email,
-      password,
-      password_confirmation: passwordConfirmation,
-    };
-
     return this.http.post<ResetPasswordResponse>(
       `${this.apiUrl}/auth/reset-password`,
-      payload,
-      { headers }
+      {
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+      },
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
 
-  // First Time Password Change Method
   changePasswordFirstTime(
     password: string,
     passwordConfirmation: string
   ): Observable<ChangePasswordFirstTimeResponse> {
-    const payload: ChangePasswordFirstTimeRequest = {
-      password,
-      password_confirmation: passwordConfirmation,
-    };
-
     return this.http.post<ChangePasswordFirstTimeResponse>(
       `${this.apiUrl}/auth/change-password-first-time`,
-      payload,
       {
-        headers: this.getAuthHeaders(),
-      }
+        password,
+        password_confirmation: passwordConfirmation,
+      },
+      { headers: this.getAuthHeaders() }
     );
   }
 
+  // ----------------- Permissions -----------------
   getPermissions(): string[] {
-    if (!this.user?.roles) return [];
-    return this.user.roles.flatMap((role: any) =>
-      role.permissions.map((p: any) => p.name)
+    const user = this.getCurrentUser();
+    if (!user?.roles) return [];
+    return user.roles.flatMap((role) =>
+      role.permissions.map((p) => p.name)
     );
   }
 
   hasPermission(permission: string): boolean {
+    // If no permission is required or it's 'always-allow', grant access
+    if (!permission || permission === 'always-allow' || permission === '') {
+      return true;
+    }
+    
     const permissions = this.getPermissions();
-
-    return permissions.some(p => {
+    return permissions.some((p) => {
       if (p === permission) return true;
       if (p.includes('*')) {
         const base = p.replace('*', '');
