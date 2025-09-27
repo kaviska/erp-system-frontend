@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <!-- Page Header -->
+  <div class="row mb-8">
+    <div class="col-12">
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <h1 class="page-heading d-flex text-dark fw-bold fs-3 mb-0">
+            Add New User
+          </h1>
+          <span class="text-muted fs-7">Create a new user account with role and permissions</span>
+        </div>
+        <div>
+          <a routerLink="/user" class="btn btn-light btn-sm">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Users
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Generator -->
+  <div class="row">
+    <div class="col-12">
+      <app-form-generator
+        [config]="formConfig"
+        [initialData]="initialData"
+        [loading]="loading"
+        (formSubmit)="onFormSubmit($event)"
+        (formReset)="onFormReset()"
+        (formChange)="onFormChange($event)"
+        (fieldChange)="onFieldChange($event)">
+      </app-form-generator>
+    </div>
+  </div>
+
+  <!-- Usage Instructions (for demonstration) -->
+  <div class="row mt-8" *ngIf="!loading">
+    <div class="col-12">
+      <div class="card bg-light-info">
+        <div class="card-body">
+          <h5 class="card-title text-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Form Generator Usage Example
+          </h5>
+          <p class="card-text">
+            This form is generated dynamically using the FormGeneratorComponent. 
+            Key features demonstrated:
+          </p>
+          <ul class="mb-0">
+            <li><strong>Responsive Layout:</strong> Fields are col-6 on desktop, col-12 on mobile (unless fullWidth is set)</li>
+            <li><strong>Multiple Input Types:</strong> text, email, password, number, date, select, textarea, checkbox, radio</li>
+            <li><strong>Validation:</strong> Required fields, email validation, min/max length, pattern matching</li>
+            <li><strong>Styling Options:</strong> default, solid, transparent styles</li>
+            <li><strong>Event Handling:</strong> Form submission, reset, real-time changes, individual field changes</li>
+            <li><strong>Initial Data:</strong> Pre-populate fields with default values</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

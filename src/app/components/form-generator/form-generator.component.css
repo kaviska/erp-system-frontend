@@ -1,0 +1,217 @@
+/* Form Generator Styles */
+.form-generator {
+  position: relative;
+}
+
+/* Enhanced form styling */
+.form-label {
+  font-weight: 600;
+  color: #3F4254;
+  margin-bottom: 0.5rem;
+}
+
+.form-label .text-danger {
+  font-size: 0.875rem;
+  margin-left: 2px;
+}
+
+/* Input focus enhancements */
+.form-control:focus,
+.form-select:focus {
+  border-color: #009EF7;
+  box-shadow: 0 0 0 0.2rem rgba(0, 158, 247, 0.15);
+}
+
+.form-control-solid:focus {
+  background-color: #F5F8FA;
+  border-color: #009EF7;
+}
+
+/* Error state styling */
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: #F1416C;
+  background-image: none;
+}
+
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+  border-color: #F1416C;
+  box-shadow: 0 0 0 0.2rem rgba(241, 65, 108, 0.15);
+}
+
+/* Invalid feedback styling */
+.invalid-feedback {
+  display: block !important;
+  color: #F1416C;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+/* Checkbox and radio styling */
+.form-check {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+  margin-left: -1.5rem;
+  cursor: pointer;
+}
+
+.form-check-label {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.form-check-input:checked {
+  background-color: #009EF7;
+  border-color: #009EF7;
+}
+
+/* Radio button group spacing */
+.form-group .form-check:last-child {
+  margin-bottom: 0;
+}
+
+/* Textarea styling */
+.form-control[rows] {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Button styling */
+.btn {
+  font-weight: 600;
+  border-radius: 0.475rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-primary {
+  background-color: #009EF7;
+  border-color: #009EF7;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #0085D1;
+  border-color: #0085D1;
+}
+
+.btn-light {
+  background-color: #F5F8FA;
+  border-color: #E4E6EA;
+  color: #7E8299;
+}
+
+.btn-light:hover {
+  background-color: #E4E6EA;
+  border-color: #B5B5C3;
+  color: #5E6278;
+}
+
+/* Loading states */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Form text helper */
+.form-text {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Select2 integration compatibility */
+.form-select[data-control="select2"] {
+  background-image: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .form-control,
+  .form-select {
+    font-size: 1rem; /* Prevent zoom on iOS */
+  }
+}
+
+/* Field group spacing */
+.mb-7 {
+  margin-bottom: 1.75rem !important;
+}
+
+/* Separator styling */
+.separator {
+  border-top: 1px dashed #E4E6EA;
+  margin: 1.5rem 0;
+}
+
+.separator.separator-dashed {
+  border-top-style: dashed;
+}
+
+/* Card enhancements */
+.card {
+  box-shadow: 0 0 20px 0 rgba(76, 87, 125, 0.1);
+  border: 0;
+  border-radius: 0.625rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+/* Alert styling */
+.alert {
+  border-radius: 0.475rem;
+  padding: 1rem 1.5rem;
+  border: 0;
+}
+
+.alert-warning {
+  background-color: #FFF8DD;
+  color: #F6B100;
+}
+
+/* Animation for form appearance */
+.form-generator {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus ring for accessibility */
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  outline: 0;
+}
+
+/* Disabled field styling */
+.form-control:disabled,
+.form-select:disabled {
+  background-color: #F5F8FA;
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Readonly field styling */
+.form-control[readonly] {
+  background-color: #F9F9F9;
+  cursor: not-allowed;
+}

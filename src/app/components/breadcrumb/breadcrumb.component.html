@@ -1,0 +1,18 @@
+<h1 class="fs-2">{{ title }}</h1>
+<ol class="breadcrumb text-muted fs-6 fw-semibold">
+    <li 
+        *ngFor="let item of breadcrumbItems" 
+        class="breadcrumb-item"
+        [class.text-muted]="item.active"
+    >
+        <a 
+            *ngIf="!item.active && item.route" 
+            [href]="item.route" 
+            class=""
+        >
+            {{ item.text }}
+        </a>
+        <span *ngIf="item.active">{{ item.text }}</span>
+        <span *ngIf="!item.active && !item.route">{{ item.text }}</span>
+    </li>
+</ol>
