@@ -99,11 +99,37 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
     });
   }
 
+  private getInitialValue(field: FormField): any {
+    if (this.initialData && this.initialData[field.name] !== undefined) {
+      return this.initialData[field.name];
+    }
+    
+    // Set default values based on field type
+    switch (field.type) {
+      case 'checkbox':
+        return false;
+      case 'number':
+        return null;
+      case 'select':
+        return field.multiple ? [] : '';  // Use empty string for single select
+      default:
+        return '';
+    }
+  }
+
   private buildValidators(field: FormField) {
     const validators = [];
     
     if (field.validation?.required) {
-      validators.push(Validators.required);
+      // For select fields, use a custom validator that checks for empty string
+      if (field.type === 'select') {
+        validators.push((control: any) => {
+          const value = control.value;
+          return (value === null || value === undefined || value === '') ? { required: true } : null;
+        });
+      } else {
+        validators.push(Validators.required);
+      }
     }
     if (field.validation?.email || field.type === 'email') {
       validators.push(Validators.email);
@@ -127,28 +153,23 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
     return validators;
   }
 
-  private getInitialValue(field: FormField): any {
-    if (this.initialData && this.initialData[field.name] !== undefined) {
-      return this.initialData[field.name];
-    }
-    
-    // Set default values based on field type
-    switch (field.type) {
-      case 'checkbox':
-        return false;
-      case 'number':
-        return null;
-      case 'select':
-        return field.multiple ? [] : '';
-      default:
-        return '';
-    }
-  }
-
   onSubmit() {
     this.submitted = true;
     if (this.form.valid) {
-      this.formSubmit.emit(this.form.value);
+      const formData = { ...this.form.value };
+      
+      // Convert string values to numbers for select fields that should be integers
+      this.config.fields.forEach(field => {
+        if (field.type === 'select' && !field.multiple && formData[field.name]) {
+          // Convert to number if the original option value was a number
+          const option = field.options?.find(opt => opt.value == formData[field.name]);
+          if (option && typeof option.value === 'number') {
+            formData[field.name] = Number(formData[field.name]);
+          }
+        }
+      });
+      
+      this.formSubmit.emit(formData);
     } else {
       this.markAllFieldsAsTouched();
     }

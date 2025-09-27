@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormGeneratorComponent, FormConfig } from '../../components/form-generator/form-generator.component';
 import { UserService,Role } from '../../services/user.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-user-add',
@@ -20,7 +21,8 @@ export class UserAddComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -36,6 +38,7 @@ export class UserAddComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to fetch roles', err);
+        this.toastService.handleApiError(err, 'Failed to fetch roles');
       }
     });
   }
@@ -45,9 +48,12 @@ export class UserAddComponent implements OnInit {
       const roleField = this.formConfig.fields.find(field => field.name === 'role');
       if (roleField) {
         roleField.options = this.roles.map(role => ({
-          value: role.id.toString(),
+          value: role.id,  // Remove .toString() to keep as number
           label: role.name
         }));
+        
+        // Trigger form re-initialization to update validators
+        this.initializeFormConfig();
       }
     }
   }
@@ -117,7 +123,10 @@ export class UserAddComponent implements OnInit {
           validation: {
             required: true
           },
-          options: [], // Will be populated dynamically from API
+          options: this.roles.map(role => ({
+            value: role.id,  // Keep as number
+            label: role.name
+          })),
           style: 'solid'
         },
        
@@ -130,8 +139,8 @@ export class UserAddComponent implements OnInit {
     // Set some default values
     this.initialData = {
       is_active: true,
-      // role will be set by user selection
       notification_preference: 'email'
+      // Don't set role here, let user select
     };
   }
 
@@ -140,7 +149,7 @@ export class UserAddComponent implements OnInit {
     
     // Validate password confirmation
     if (formData.password !== formData.password_confirmation) {
-      alert('Passwords do not match!');
+      this.toastService.showWarning('Passwords do not match!', 'Validation Error');
       return;
     }
 
@@ -154,17 +163,20 @@ export class UserAddComponent implements OnInit {
     this.userService.createUser(userData).subscribe({
       next: (response) => {
         console.log('User created successfully:', response);
-        alert('User created successfully!');
+        this.toastService.showSuccess('User has been created successfully!', 'Success');
         this.loading = false;
-        // Navigate to user list or reset form
-        // Uncomment the line below if you want to navigate to users list
-        // this.router.navigate(['/users']);
-        this.onFormReset();
+        
+       
+        
+        // Alternatively, reset form if staying on the same page
+         this.onFormReset();
       },
       error: (err) => {
         console.error('Failed to create user:', err);
-        alert('Failed to create user. Please try again.');
         this.loading = false;
+        // Show actual error message from API if available
+        const apiErrorMsg = err?.error?.errors || err?.error?.message || 'Failed to create user. Please try again.';
+        this.toastService.showError(apiErrorMsg, 'Error');
       }
     });
   }
@@ -174,8 +186,8 @@ export class UserAddComponent implements OnInit {
     // Reset to initial data
     this.initialData = {
       is_active: true,
-      // role will be set by user selection
       notification_preference: 'email'
+      // Don't set role here, let user select
     };
   }
 
