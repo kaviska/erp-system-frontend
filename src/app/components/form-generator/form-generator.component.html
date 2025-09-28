@@ -116,6 +116,38 @@
               </div>
             </div>
 
+            <!-- Checkbox Groups with Headers -->
+            <div *ngIf="field.type === 'checkbox-group'" class="form-group">
+              <div *ngFor="let group of field.groups; let groupIndex = index" class="checkbox-group-container">
+                <!-- Group Header -->
+                <div class="checkbox-group-header">
+                  <i class="fas fa-shield-alt me-2"></i>
+                  {{ group.title }}
+                </div>
+                <!-- Group Checkboxes -->
+                <div class="row">
+                  <div 
+                    *ngFor="let option of group.options; let i = index"
+                    class="col-12 col-md-6 col-lg-4 checkbox-group-item">
+                    <div class="form-check">
+                      <input 
+                        type="checkbox"
+                        [id]="field.name + '_group_' + groupIndex + '_checkbox_' + i"
+                        class="form-check-input"
+                        [checked]="isCheckboxChecked(field.name, option.value)"
+                        (change)="onCheckboxGroupChange(field.name, option.value, $any($event.target).checked)"
+                        [class.is-invalid]="isFieldInvalid(field.name)" />
+                      <label 
+                        class="form-check-label" 
+                        [for]="field.name + '_group_' + groupIndex + '_checkbox_' + i">
+                        {{ option.label }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Error Message -->
             <div 
               *ngIf="shouldShowError(field.name)" 

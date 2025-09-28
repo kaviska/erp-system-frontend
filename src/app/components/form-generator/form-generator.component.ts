@@ -8,7 +8,7 @@ export interface FormField {
   permission?: string;
   label: string;
   placeholder?: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'date' | 'datetime-local' | 'select' | 'textarea' | 'checkbox' | 'radio';
+  type: 'text' | 'email' | 'password' | 'number' | 'date' | 'datetime-local' | 'select' | 'textarea' | 'checkbox' | 'radio' | 'checkbox-group';
   validation?: {
     required?: boolean;
     minLength?: number;
@@ -19,6 +19,7 @@ export interface FormField {
     email?: boolean;
   };
   options?: { value: any; label: string }[]; // For select, radio inputs
+  groups?: { title: string; options: { value: any; label: string }[] }[]; // For checkbox-group with headers
   fullWidth?: boolean; // If true, takes full width instead of col-6
   style?: 'default' | 'solid' | 'transparent'; // Input style variants
   size?: 'sm' | 'default' | 'lg'; // Input size variants (sm, default, lg)
@@ -110,6 +111,8 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
     switch (field.type) {
       case 'checkbox':
         return false;
+      case 'checkbox-group':
+        return []; // Array to store selected checkbox values
       case 'number':
         return null;
       case 'select':
@@ -128,6 +131,12 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
         validators.push((control: any) => {
           const value = control.value;
           return (value === null || value === undefined || value === '') ? { required: true } : null;
+        });
+      } else if (field.type === 'checkbox-group') {
+        // For checkbox groups, require at least one selection
+        validators.push((control: any) => {
+          const value = control.value;
+          return (!value || !Array.isArray(value) || value.length === 0) ? { required: true } : null;
         });
       } else {
         validators.push(Validators.required);
@@ -291,5 +300,26 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
     } else {
       this.form.get(fieldName)?.enable();
     }
+  }
+
+  // Helper methods for checkbox groups
+  isCheckboxChecked(fieldName: string, value: any): boolean {
+    const fieldValue = this.getFieldValue(fieldName);
+    return Array.isArray(fieldValue) && fieldValue.includes(value);
+  }
+
+  onCheckboxGroupChange(fieldName: string, value: any, checked: boolean): void {
+    const currentValue = this.getFieldValue(fieldName) || [];
+    let newValue = [...currentValue];
+
+    if (checked) {
+      if (!newValue.includes(value)) {
+        newValue.push(value);
+      }
+    } else {
+      newValue = newValue.filter(v => v !== value);
+    }
+
+    this.setFieldValue(fieldName, newValue);
   }
 }

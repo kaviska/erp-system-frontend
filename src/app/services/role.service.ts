@@ -75,9 +75,9 @@ export class RoleService {
   /**
    * Create new role
    */
-  createRole(roleData: { name: string; permissions: number[] }): Observable<any> {
+  createRole(roleData: { name: string; permissions: string[] }): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post<any>(`${this.apiUrl}/permission/roles`, roleData, { headers });
+    return this.http.post<any>(`${this.apiUrl}/permission/create-role`, roleData, { headers });
   }
 
   /**

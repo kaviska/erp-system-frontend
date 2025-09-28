@@ -1,1 +1,61 @@
-<p>role-add works!</p>
+<!-- Breadcrumb -->
+<app-breadcrumb 
+  title="Add Role"
+  [breadcrumbItems]="[
+    { text: 'Dashboard', route: '/dashboard' },
+    { text: 'Roles', route: '/roles' },
+    { text: 'Add Role', active: true }
+  ]">
+</app-breadcrumb>
+
+<!-- Main Content -->
+<div class="row gy-5 g-xl-8 mt-5">
+  <div class="col-xl-12">
+    <div class="card">
+      <!-- Card Header -->
+      <div class="card-header border-0 pt-6">
+        <div class="card-title">
+          <div class="d-flex align-items-center position-relative me-4">
+            <i class="fas fa-user-shield fs-2 position-absolute ms-4 text-muted"></i>
+            <h3 class="fw-bolder m-0 ms-12 mx-3">Create New Role</h3>
+          </div>
+        </div>
+        <div class="card-toolbar">
+          <div class="d-flex justify-content-end">
+            <a routerLink="/roles" class="btn btn-light btn-active-light-primary me-3">
+              <i class="fas fa-arrow-left me-2"></i>
+              Back to Roles
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card Body -->
+      <div class="card-body">
+        <!-- Instructions -->
+        <div class="alert alert-primary d-flex align-items-center mb-8">
+          <i class="fas fa-info-circle fs-2 me-4"></i>
+          <div>
+            <h4 class="alert-heading fw-bold">Role Creation Instructions</h4>
+            <p class="mb-0">
+              Create a new role by entering a unique role name and selecting the appropriate permissions. 
+              Permissions are grouped by functionality for easier management. 
+              Select all permissions that this role should have access to.
+            </p>
+          </div>
+        </div>
+
+        <!-- Form Generator -->
+        <app-form-generator
+          [config]="formConfig"
+          [initialData]="initialData"
+          [loading]="loading"
+          (formSubmit)="onFormSubmit($event)"
+          (formReset)="onFormReset()"
+          (formChange)="onFormChange($event)"
+          (fieldChange)="onFieldChange($event)">
+        </app-form-generator>
+      </div>
+    </div>
+  </div>
+</div>
