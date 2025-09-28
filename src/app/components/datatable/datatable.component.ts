@@ -13,6 +13,7 @@ export interface DatatableColumn {
   badgeClass?: string;
   format?: (value: any) => string;
   template?: string;
+  customTemplate?: string; // Add this property for custom templates
   align?: 'left' | 'center' | 'right';
 }
 
@@ -235,6 +236,36 @@ export class DatatableComponent implements OnInit, OnChanges {
 
   toggleExportMenu() {
     this.showExportMenu = !this.showExportMenu;
+  }
+
+  // Get column CSS class
+  getColumnClass(column: DatatableColumn): string {
+    let cssClass = '';
+    
+    switch (column.align) {
+      case 'center':
+        cssClass += 'text-center';
+        break;
+      case 'right':
+        cssClass += 'text-end';
+        break;
+      default:
+        cssClass += 'text-start';
+    }
+    
+    return cssClass;
+  }
+
+  // Get column value for display
+  getColumnValue(row: any, column: DatatableColumn): any {
+    return this.getNestedValue(row, column.key);
+  }
+
+  // Method to get custom template (placeholder for now)
+  getCustomTemplate(templateName: string): any {
+    // This would be used to get ng-template references
+    // For now, return null as we'll handle it in the parent component
+    return null;
   }
 
   // Track by function for *ngFor performance

@@ -38,17 +38,23 @@ export class MenuComponent {
           route : '/dashboard/users',
           permission: "always-allow"
         },
+         {
+          title: "User Add",
+          route: '/dashboard/user-add',
+          permission: "always-allow"
+
+        },
         {
           title: "Roles & Permissions" ,
           route : '/dashboard/roles-permissions',
           permission: "always-allow"
         },
         {
-          title: "User Add",
-          route: '/dashboard/user-add',
+          title :"Roles & Permissions Add",
+          route: '/dashboard/roles-permissions-add',
           permission: "always-allow"
-
         },
+       
         {
           title: "temp",
           permission: 'create.account.*'

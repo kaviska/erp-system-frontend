@@ -1,26 +1,15 @@
 <div class="container-fluid">
   <!-- Page Header -->
-  <div class="row mb-8">
-    <div class="col-12">
-      <div class="d-flex align-items-center justify-content-between">
-        <div>
-          <h1 class="page-heading d-flex text-dark fw-bold fs-3 mb-0">
-            Add New User
-          </h1>
-          <span class="text-muted fs-7">Create a new user account with role and permissions</span>
-        </div>
-        <div>
-          <a routerLink="/user" class="btn btn-light btn-sm">
-            <i class="fas fa-arrow-left me-2"></i>
-            Back to Users
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<app-breadcrumb 
+    [title]="'User Management'" 
+    [breadcrumbItems]="[
+        { text: 'Home', route: '/' },
+        { text: 'Dashboard', route: '/dashboard' },
+        { text: 'Users Add', active: true }
+    ]"
+></app-breadcrumb>
   <!-- Form Generator -->
-  <div class="row">
+  <div class="row mt-5">
     <div class="col-12">
       <app-form-generator
         [config]="formConfig"

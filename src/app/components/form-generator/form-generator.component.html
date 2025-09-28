@@ -16,8 +16,9 @@
           *ngFor="let field of config.fields" 
           [ngClass]="getColumnClass(field)">
           
-          <div class="mb-7">
+          <div class="mb-7" appHasPermission="{{field.permission}}">
             <!-- Field Label (for non-checkbox fields) -->
+             <!-- <span>{{field.permission}}</span> -->
             <label 
               *ngIf="field.type !== 'checkbox'" 
               class="form-label">

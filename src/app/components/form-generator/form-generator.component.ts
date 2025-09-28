@@ -1,9 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HasPermissionDirective } from '../../directives/has-permission.directive';
 
 export interface FormField {
   name: string;
+  permission?: string;
   label: string;
   placeholder?: string;
   type: 'text' | 'email' | 'password' | 'number' | 'date' | 'datetime-local' | 'select' | 'textarea' | 'checkbox' | 'radio';
@@ -38,7 +40,7 @@ export interface FormConfig {
 
 @Component({
   selector: 'app-form-generator',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,HasPermissionDirective],
   templateUrl: './form-generator.component.html',
   styleUrl: './form-generator.component.css'
 })

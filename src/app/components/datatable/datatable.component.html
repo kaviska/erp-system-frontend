@@ -108,12 +108,12 @@
             (click)="onRowClick(row)"
           >
             <td 
-              *ngFor="let column of columns"
-              [class]="column.align === 'right' ? 'text-end' : column.align === 'center' ? 'text-center' : ''"
+              *ngFor="let column of columns" 
+              [ngClass]="getColumnClass(column)"
             >
               <!-- Text/Default -->
-              <span *ngIf="!column.type || column.type === 'text'">
-                {{ formatCellValue(row, column) }}
+              <span *ngIf="column.type === 'text' || !column.type">
+                {{ getColumnValue(row, column) }}
               </span>
 
               <!-- Email -->
@@ -165,11 +165,10 @@
                 {{ formatCellValue(row, column) }}
               </span>
 
-              <!-- Custom Template -->
-              <div 
-                *ngIf="column.type === 'custom'" 
-                [innerHTML]="column.template"
-              ></div>
+              <!-- Custom template placeholder - will be handled by parent component -->
+              <ng-container *ngIf="column.type === 'custom'">
+                <ng-content select="[slot='custom-cell-' + column.key]"></ng-content>
+              </ng-container>
             </td>
 
             <!-- Actions Column -->
@@ -245,3 +244,4 @@
   style="z-index: 1;"
   (click)="showExportMenu = false"
 ></div>
+ 

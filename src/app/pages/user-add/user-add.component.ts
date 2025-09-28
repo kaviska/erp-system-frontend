@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { FormGeneratorComponent, FormConfig } from '../../components/form-generator/form-generator.component';
 import { UserService,Role } from '../../services/user.service';
 import { ToastService } from '../../services/toast.service';
+import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-user-add',
-  imports: [CommonModule, FormGeneratorComponent, RouterModule],
+  imports: [CommonModule, FormGeneratorComponent, RouterModule,BreadcrumbComponent],
   templateUrl: './user-add.component.html',
   styleUrl: './user-add.component.css'
 })
@@ -64,6 +65,8 @@ export class UserAddComponent implements OnInit {
         {
           name: 'first_name',
           label: 'First Name',
+          permission: "always-allow",
+
           type: 'text',
           placeholder: 'Enter first name',
           validation: {
@@ -74,6 +77,8 @@ export class UserAddComponent implements OnInit {
         },
         {
           name: 'last_name',
+          permission: "always-allow",
+
           label: 'Last Name',
           type: 'text',
           placeholder: 'Enter last name',
@@ -85,6 +90,8 @@ export class UserAddComponent implements OnInit {
         },
         {
           name: 'email',
+          permission: "always-allow",
+
           label: 'Email Address',
           type: 'email',
           placeholder: 'Enter email address',
@@ -97,6 +104,8 @@ export class UserAddComponent implements OnInit {
         },
         {
           name: 'password',
+          permission: "always-allow",
+
           label: 'Password',
           type: 'password',
           placeholder: 'Enter password',
@@ -107,6 +116,8 @@ export class UserAddComponent implements OnInit {
         },
         {
           name: 'password_confirmation',
+          permission: "always-allow",
+
           label: 'Confirm Password',
           type: 'password',
           placeholder: 'Confirm password',
@@ -118,6 +129,8 @@ export class UserAddComponent implements OnInit {
         {
           name: 'role',
           label: 'User Role',
+          permission: "always-allow",
+
           type: 'select',
           placeholder: 'Select user role',
           validation: {
@@ -129,6 +142,15 @@ export class UserAddComponent implements OnInit {
           })),
           style: 'solid'
         },
+        {
+          name: "Test Permission",
+        permission: "create.account.*",
+        type: 'text',
+        placeholder: 'This field requires test-permission',
+        label: 'Test Permission Field',
+        
+        }
+      
        
       ],
       submitButtonText: 'Create User',

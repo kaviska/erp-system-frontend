@@ -5,6 +5,8 @@ import { DefaultComponent } from './components/layouts/default/default.component
 import { UserComponent } from './pages/user/user.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UserAddComponent } from './pages/user-add/user-add.component';
+import { RoleComponent } from './pages/role/role.component';
+import { RoleAddComponent } from './pages/role-add/role-add.component';
 
 export const routes: Routes = [
   {
@@ -42,7 +44,9 @@ export const routes: Routes = [
     children: [
        { path: '', component: DashboardComponent },
       { path: 'users', component: UserComponent },
-      {path: 'user-add', component: UserAddComponent}
+      {path: 'user-add', component: UserAddComponent},
+      {path: 'roles-permissions', component : RoleComponent},
+      {path: 'roles-permissions-add', component : RoleAddComponent}
       // { path: 'settings', component: SettingsComponent }
     ]
   },
