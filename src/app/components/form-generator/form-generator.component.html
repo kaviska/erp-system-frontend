@@ -133,7 +133,7 @@
                       <input 
                         type="checkbox"
                         [id]="field.name + '_group_' + groupIndex + '_checkbox_' + i"
-                        class="form-check-input"
+                        class="form-check-input  mx-1"
                         [checked]="isCheckboxChecked(field.name, option.value)"
                         (change)="onCheckboxGroupChange(field.name, option.value, $any($event.target).checked)"
                         [class.is-invalid]="isFieldInvalid(field.name)" />

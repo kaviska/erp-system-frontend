@@ -69,7 +69,7 @@
                                 <th class="min-w-200px">Permission Name</th>
                                 <th class="min-w-150px">System Name</th>
                                 <th class="min-w-200px">Description</th>
-                                <th class="min-w-100px">Guard</th>
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -87,9 +87,7 @@
                                     <code class="text-primary">{{ permission.name }}</code>
                                 </td>
                                 <td class="text-muted">{{ permission.description }}</td>
-                                <td>
-                                    <span class="badge badge-light-primary">{{ permission.guard_name }}</span>
-                                </td>
+                             
                             </tr>
                         </tbody>
                     </table>
@@ -145,3 +143,15 @@
         </div>
     </div>
 </div>
+
+<!-- Professional Delete Confirmation Modal -->
+<app-delete-confirmation
+    #deleteConfirmation
+    [itemType]="'role'"
+    [itemName]="roleToDelete?.name"
+    [isDestructive]="true"
+    [isLoading]="isDeletingRole"
+    [customMessage]="roleToDelete ? 'This will permanently remove the role and may affect users who have this role assigned.' : ''"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()">
+</app-delete-confirmation>

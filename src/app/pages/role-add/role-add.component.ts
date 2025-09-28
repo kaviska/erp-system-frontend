@@ -60,6 +60,7 @@ export class RoleAddComponent implements OnInit {
                 { value: 'user.create.*', label: 'Create Users' },
                 { value: 'user.update.*', label: 'Update Users' },
                 { value: 'user.delete.*', label: 'Delete Users' },
+                { value: 'user.view.*', label: 'View Users' },
                 { value: 'user.tempFiled.*', label: 'User Temp Field Access' }
               ]
             },
@@ -69,9 +70,18 @@ export class RoleAddComponent implements OnInit {
                 { value: 'role.create.*', label: 'Create Roles' },
                 { value: 'role.update.*', label: 'Update Roles' },
                 { value: 'role.delete.*', label: 'Delete Roles' },
-                { value: 'role.assign.*', label: 'Assign Roles' }
+                { value: 'role.view.*', label: 'View Roles' }
+
+               
               ]
             },
+            {
+              title: "Temp Nav Bar",
+              options: [
+                { value: 'temp.navbar.*', label: 'Temp Nav Bar Access' }
+              ]
+            },
+
             {
               title: 'Account Management',
               options: [

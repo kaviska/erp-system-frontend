@@ -1,21 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { DatatableComponent, DatatableColumn, DatatableAction, DatatableConfig } from '../../components/datatable/datatable.component';
+import { DeleteConfirmationComponent } from '../../components/delete-confirmation/delete-confirmation.component';
 import { RoleService, Role } from '../../services/role.service';
 import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-role',
-  imports: [CommonModule, BreadcrumbComponent, DatatableComponent],
+  imports: [CommonModule, BreadcrumbComponent, DatatableComponent, DeleteConfirmationComponent],
   templateUrl: './role.component.html',
   styleUrl: './role.component.css'
 })
 export class RoleComponent implements OnInit {
+  @ViewChild('deleteConfirmation') deleteConfirmation!: DeleteConfirmationComponent;
+
   roles: Role[] = [];
   roleData: any[] = [];
   isLoading = false;
+  isDeletingRole = false;
+  roleToDelete: any = null;
   selectedRolePermissions: any[] = [];
   selectedRoleName = '';
 
@@ -96,22 +101,10 @@ export class RoleComponent implements OnInit {
       type: 'text'
     },
     {
-      key: 'guard_name',
-      title: 'Guard',
-      sortable: true,
-      type: 'badge'
-    },
-    {
       key: 'permissions_count',
       title: 'Permissions Count',
       type: 'number',
       sortable: true
-    },
-    {
-      key: 'permissions',
-      title: 'Permissions',
-      type: 'text',
-      sortable: false
     },
     {
       key: 'created_at',
@@ -189,23 +182,53 @@ export class RoleComponent implements OnInit {
 
   deleteRole(role: any) {
     console.log('Delete role:', role);
-    if (confirm(`Are you sure you want to delete the role "${role.name}"?`)) {
-      this.roleService.deleteRole(role.id).subscribe({
-        next: (response) => {
-          this.toastService.showSuccess('Role deleted successfully!', 'Success');
-          this.loadRoles(); // Refresh the list
-        },
-        error: (error) => {
-          console.error('Failed to delete role:', error);
-          this.toastService.handleApiError(error, 'Failed to delete role');
-        }
-      });
-    }
+    
+    // Set the role to delete and show confirmation modal
+    this.roleToDelete = role;
+    this.deleteConfirmation.show();
+  }
+
+  onDeleteConfirmed() {
+    if (!this.roleToDelete) return;
+    
+    this.isDeletingRole = true;
+    
+    // Call delete API
+    this.roleService.deleteRole(this.roleToDelete.id).subscribe({
+      next: (response) => {
+        console.log('Role deleted successfully:', response);
+        this.toastService.showSuccess(
+          `Role "${this.roleToDelete.name}" has been deleted successfully.`,
+          'Role Deleted'
+        );
+        
+        // Reload roles data
+        this.loadRoles();
+        
+        // Hide modal and reset state
+        this.deleteConfirmation.hide();
+        this.isDeletingRole = false;
+        this.roleToDelete = null;
+      },
+      error: (error) => {
+        console.error('Failed to delete role:', error);
+        const errorMessage = error?.error?.message || 'Failed to delete role. Please try again.';
+        this.toastService.showError(errorMessage, 'Delete Failed');
+        
+        this.isDeletingRole = false;
+      }
+    });
+  }
+
+  onDeleteCancelled() {
+    console.log('Delete cancelled');
+    this.roleToDelete = null;
+    this.isDeletingRole = false;
   }
 
   addRole() {
     console.log('Add new role');
-    this.router.navigate(['/roles/add']);
+    this.router.navigate(['dashboard/roles-permissions-add']);
   }
 
   onRowClick(row: any) {
@@ -257,6 +280,15 @@ export class RoleComponent implements OnInit {
       'edit.user': 'Edit existing user accounts',
       'view.user': 'View user account details',
       'manage.roles': 'Manage user roles and permissions',
+       'user.create.*': 'Create Account User',
+      'role.create.*': 'Create Account Role',
+      'user.update.*': 'Update Account User',
+      'user.delete.*': 'Delete Account User',
+      'user.view.*': 'View Account User',
+      'role.update.*': 'Update Account Role',
+      'role.delete.*': 'Delete Account Role',
+      'role.view.*': 'View Account Role',
+      
       // Add more descriptions as needed
     };
 

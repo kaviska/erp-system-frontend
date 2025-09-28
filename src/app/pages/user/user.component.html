@@ -26,3 +26,14 @@
         (customAction)="onRowClick($event)"
     ></app-datatable>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<app-delete-confirmation
+    #deleteConfirmation
+    [itemType]="'user'"
+    [itemName]="userToDelete ? (userToDelete.first_name + ' ' + userToDelete.last_name) : ''"
+    [isDestructive]="true"
+    [isLoading]="isDeletingUser"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()">
+</app-delete-confirmation>

@@ -1,23 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { DatatableComponent, DatatableColumn, DatatableAction, DatatableConfig } from '../../components/datatable/datatable.component';
+import { DeleteConfirmationComponent } from '../../components/delete-confirmation/delete-confirmation.component';
 import { UserService, User } from '../../services/user.service';
+import { ToastService } from '../../services/toast.service';
 
 
 @Component({
   selector: 'app-user',
-  imports: [CommonModule, BreadcrumbComponent, DatatableComponent],
+  imports: [CommonModule, BreadcrumbComponent, DatatableComponent, DeleteConfirmationComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
+  @ViewChild('deleteConfirmation') deleteConfirmation!: DeleteConfirmationComponent;
 
   users: User[] = [];
   userData: any[] = [];
   isLoading = false;
+  isDeletingUser = false;
+  userToDelete: any = null;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit() {
     this.loadUsers();
@@ -142,11 +150,48 @@ export class UserComponent implements OnInit {
 
   deleteUser(user: any) {
     console.log('Delete user:', user);
-    // Implement delete logic here - show confirmation dialog
-    if (confirm(`Are you sure you want to delete ${user.first_name} ${user.last_name}?`)) {
-      // Call delete API
-      console.log('User deleted');
-    }
+    
+    // Set the user to delete and show confirmation modal
+    this.userToDelete = user;
+    this.deleteConfirmation.show();
+  }
+
+  onDeleteConfirmed() {
+    if (!this.userToDelete) return;
+    
+    this.isDeletingUser = true;
+    
+    // Call delete API
+    this.userService.deleteUser(this.userToDelete.id).subscribe({
+      next: (response) => {
+        console.log('User deleted successfully:', response);
+        this.toastService.showSuccess(
+          `User ${this.userToDelete.first_name} ${this.userToDelete.last_name} has been deleted successfully.`,
+          'User Deleted'
+        );
+        
+        // Reload users data
+        this.loadUsers();
+        
+        // Hide modal and reset state
+        this.deleteConfirmation.hide();
+        this.isDeletingUser = false;
+        this.userToDelete = null;
+      },
+      error: (error) => {
+        console.error('Failed to delete user:', error);
+        const errorMessage = error?.error?.message || 'Failed to delete user. Please try again.';
+        this.toastService.showError(errorMessage, 'Delete Failed');
+        
+        this.isDeletingUser = false;
+      }
+    });
+  }
+
+  onDeleteCancelled() {
+    console.log('Delete cancelled');
+    this.userToDelete = null;
+    this.isDeletingUser = false;
   }
 
   addUser() {

@@ -144,7 +144,7 @@ export class UserAddComponent implements OnInit {
         },
         {
           name: "Test Permission",
-        permission: "create.account.*",
+        permission: "temp.navbar.*",
         type: 'text',
         placeholder: 'This field requires test-permission',
         label: 'Test Permission Field',

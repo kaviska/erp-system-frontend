@@ -36,28 +36,28 @@ export class MenuComponent {
         {
           title: "Users" ,
           route : '/dashboard/users',
-          permission: "always-allow"
+          permission: "user.view.*"
         },
          {
           title: "User Add",
           route: '/dashboard/user-add',
-          permission: "always-allow"
+          permission: "user.create.*"
 
         },
         {
           title: "Roles & Permissions" ,
           route : '/dashboard/roles-permissions',
-          permission: "always-allow"
+          permission: "role.view.*"
         },
         {
           title :"Roles & Permissions Add",
           route: '/dashboard/roles-permissions-add',
-          permission: "always-allow"
+          permission: "role.create.*"
         },
        
         {
           title: "temp",
-          permission: 'create.account.*'
+          permission: 'temp.navbar.*'
         }
       ]
     }
