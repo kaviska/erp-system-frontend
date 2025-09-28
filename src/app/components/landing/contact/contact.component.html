@@ -1,0 +1,357 @@
+<section id="contact" class="contact-section">
+  <div class="contact-container">
+    <div class="section-header">
+      <span class="section-badge">Contact Us</span>
+      <h2 class="section-title">Get in Touch with Our Team</h2>
+      <p class="section-description">
+        Ready to transform your business operations? We're here to help you get started 
+        with ERP Pro and answer any questions you may have.
+      </p>
+    </div>
+
+    <div class="contact-content">
+      <div class="contact-info">
+        <div class="info-card">
+          <div class="info-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <div class="info-content">
+            <h3>Visit Our Office</h3>
+            <p>123 Business Avenue<br>Tech District, Suite 500<br>San Francisco, CA 94107</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+          </div>
+          <div class="info-content">
+            <h3>Call Us</h3>
+            <p><strong>Sales:</strong> +1 (555) 123-4567<br>
+               <strong>Support:</strong> +1 (555) 765-4321<br>
+               <strong>Hours:</strong> Mon-Fri 9AM-6PM PST</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div class="info-content">
+            <h3>Email Us</h3>
+            <p><strong>Sales:</strong> sales&#64;erpro.com<br>
+               <strong>Support:</strong> support&#64;erpro.com<br>
+               <strong>Partnership:</strong> partners&#64;erpro.com</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </div>
+          <div class="info-content">
+            <h3>Live Chat</h3>
+            <p>Get instant help from our support team via live chat. Available 24/7 for technical questions and general inquiries.</p>
+            <button class="chat-btn">Start Chat</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrapper">
+        <div class="form-header">
+          <h3>Send us a Message</h3>
+          <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+        </div>
+
+        <div *ngIf="isSubmitted" class="success-message">
+          <div class="success-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <h4>Thank you for your message!</h4>
+          <p>We've received your inquiry and will get back to you within 24 hours.</p>
+        </div>
+
+        <form #contactFormRef="ngForm" (ngSubmit)="onSubmit(contactFormRef)" class="contact-form" [class.hidden]="isSubmitted">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                [(ngModel)]="contactForm.name" 
+                required 
+                #nameField="ngModel"
+                placeholder="Enter your full name"
+              >
+              <div *ngIf="nameField.invalid && nameField.touched" class="error-message">
+                Full name is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                [(ngModel)]="contactForm.email" 
+                required 
+                email 
+                #emailField="ngModel"
+                placeholder="Enter your email address"
+              >
+              <div *ngIf="emailField.invalid && emailField.touched" class="error-message">
+                <span *ngIf="emailField.errors?.['required']">Email is required</span>
+                <span *ngIf="emailField.errors?.['email']">Please enter a valid email address</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="company">Company Name</label>
+              <input 
+                type="text" 
+                id="company" 
+                name="company" 
+                [(ngModel)]="contactForm.company" 
+                placeholder="Enter your company name"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                [(ngModel)]="contactForm.phone" 
+                placeholder="Enter your phone number"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject *</label>
+            <select 
+              id="subject" 
+              name="subject" 
+              [(ngModel)]="contactForm.subject" 
+              required
+            >
+              <option *ngFor="let subject of subjects" [value]="subject">{{ subject }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea 
+              id="message" 
+              name="message" 
+              [(ngModel)]="contactForm.message" 
+              required 
+              #messageField="ngModel"
+              rows="5" 
+              placeholder="Tell us more about your requirements or questions..."
+            ></textarea>
+            <div *ngIf="messageField.invalid && messageField.touched" class="error-message">
+              Message is required
+            </div>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                name="agreeToTerms" 
+                [(ngModel)]="contactForm.agreeToTerms" 
+                required
+              >
+              <span class="checkmark"></span>
+              I agree to the <a href="#terms" target="_blank">Terms of Service</a> and 
+              <a href="#privacy" target="_blank">Privacy Policy</a> *
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button 
+              type="submit" 
+              class="btn-primary-large" 
+              [disabled]="!contactFormRef.form.valid || !contactForm.agreeToTerms || isSubmitting"
+              [class.loading]="isSubmitting"
+            >
+              <span *ngIf="!isSubmitting">Send Message</span>
+              <span *ngIf="isSubmitting">
+                <svg class="spinner" width="20" height="20" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="31.416" stroke-dashoffset="31.416">
+                    <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+                    <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
+                Sending...
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+      <p class="section-description">
+        Get in touch with our team to learn how ERP Pro can streamline your operations 
+        and drive growth for your business.
+      </p>
+  
+
+    <div class="contact-content">
+      <div class="contact-info">
+        <div class="info-card">
+          <div class="info-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+          </div>
+          <h3>Phone</h3>
+          <p>+1 (555) 123-4567</p>
+          <span>Mon-Fri 9am-6pm EST</span>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3>Email</h3>
+          <p>hello&#64;erppro.com</p>
+          <span>We reply within 24 hours</span>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3>Address</h3>
+          <p>123 Business Ave<br>Tech City, TC 12345</p>
+          <span>Visit by appointment</span>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3>Support</h3>
+          <p>24/7 Technical Support</p>
+          <span>support&#64;erppro.com</span>
+        </div>
+      </div>
+
+      <div class="contact-form-wrapper">
+        <form class="contact-form"  #contactFormRef="ngForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input 
+                type="text" 
+                id="name" 
+                [(ngModel)]="contactForm.name" 
+                name="name" 
+                required 
+                class="form-input"
+                placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input 
+                type="email" 
+                id="email" 
+                [(ngModel)]="contactForm.email" 
+                name="email" 
+                required 
+                class="form-input"
+                placeholder="Enter your email">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="company">Company Name</label>
+              <input 
+                type="text" 
+                id="company" 
+                [(ngModel)]="contactForm.company" 
+                name="company" 
+                class="form-input"
+                placeholder="Enter company name">
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                [(ngModel)]="contactForm.phone" 
+                name="phone" 
+                class="form-input"
+                placeholder="Enter phone number">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="interest">I'm interested in *</label>
+            <select 
+              id="interest" 
+             
+              name="interest" 
+              required 
+              class="form-select">
+              <option value="general">General Information</option>
+              <option value="demo">Product Demo</option>
+              <option value="pricing">Pricing & Plans</option>
+              <option value="implementation">Implementation Services</option>
+              <option value="support">Technical Support</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea 
+              id="message" 
+              [(ngModel)]="contactForm.message" 
+              name="message" 
+              required 
+              rows="4" 
+              class="form-textarea"
+              placeholder="Tell us about your business needs..."></textarea>
+          </div>
+
+          <!-- <button 
+            type="submit" 
+            class="form-submit" 
+            [disabled]="!contactFormRef.form.valid || isSubmitting">
+            <span *ngIf="!isSubmitting && !submitSuccess">Send Message</span>
+            <span *ngIf="isSubmitting">Sending...</span>
+            <span *ngIf="submitSuccess">✓ Message Sent!</span>
+          </button> -->
+        </form>
+      </div>
+    </div>
+
+</section>

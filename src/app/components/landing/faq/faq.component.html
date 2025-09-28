@@ -1,0 +1,80 @@
+<section id="faq" class="faq-section">
+  <div class="faq-container">
+    <div class="section-header">
+      <span class="section-badge">FAQ</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-description">
+        Get answers to the most common questions about ERP Pro. 
+        Can't find what you're looking for? Contact our support team.
+      </p>
+      
+      <div class="faq-controls">
+        <button class="control-btn" (click)="openAll()">Expand All</button>
+        <button class="control-btn" (click)="closeAll()">Collapse All</button>
+      </div>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq-list">
+        <div class="faq-item" *ngFor="let faq of faqs" [class.active]="faq.isOpen">
+          <div class="faq-question" (click)="toggleFaq(faq.id)">
+            <h3>{{ faq.question }}</h3>
+            <div class="faq-toggle">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      [attr.d]="faq.isOpen ? 'M6 18L18 6M6 6l12 12' : 'M12 6v6m0 0v6m0-6h6m-6 0H6'"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="faq-answer" [class.open]="faq.isOpen">
+            <div class="answer-content">
+              <p>{{ faq.answer }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-sidebar">
+        <div class="help-card">
+          <div class="help-icon">
+            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z"/>
+            </svg>
+          </div>
+          <h3>Need More Help?</h3>
+          <p>Our support team is available 24/7 to assist you with any questions or issues.</p>
+          <a href="#contact" class="btn-primary">
+            Contact Support
+          </a>
+        </div>
+
+        <div class="resource-card">
+          <div class="resource-icon">
+            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <h3>Documentation</h3>
+          <p>Explore our comprehensive guides, tutorials, and API documentation.</p>
+          <a href="#" class="btn-secondary">
+            View Docs
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <div class="demo-icon">
+            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-7 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3>Schedule a Demo</h3>
+          <p>See ERP Pro in action with a personalized demo tailored to your business needs.</p>
+          <button class="btn-primary">
+            Book Demo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

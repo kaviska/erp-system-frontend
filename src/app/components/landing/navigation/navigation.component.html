@@ -1,0 +1,29 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <!-- <img src="assets/media/logos/logo.svg" alt="ERP System" class="brand-logo"> -->
+      <span class="brand-name mx-md-5">ERP Pro</span>
+    </div>
+    
+    <div class="nav-menu" [class.active]="isMenuOpen">
+      <ul class="nav-links">
+        <li><a href="#home" (click)="scrollTo('home')" class="nav-link">Home</a></li>
+        <li><a href="#about" (click)="scrollTo('about')" class="nav-link">About Us</a></li>
+        <li><a href="#success-stories" (click)="scrollTo('success-stories')" class="nav-link">Success Stories</a></li>
+        <li><a href="#team" (click)="scrollTo('team')" class="nav-link">Developer Team</a></li>
+        <li><a href="#contact" (click)="scrollTo('contact')" class="nav-link">Contact Us</a></li>
+      </ul>
+      
+      <div class="nav-buttons">
+        <button class="btn-secondary" (click)="onDemo()">Demo</button>
+        <button class="btn-primary" (click)="onLogin()">Login</button>
+      </div>
+    </div>
+    
+    <div class="nav-toggle" [class.active]="isMenuOpen" (click)="toggleMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </div>
+</nav>
