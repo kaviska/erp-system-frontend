@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { DatatableComponent, DatatableColumn, DatatableAction, DatatableConfig } from '../../components/datatable/datatable.component';
 import { DeleteConfirmationComponent } from '../../components/delete-confirmation/delete-confirmation.component';
+import { UserUpdateComponent } from '../../components/update/user-update/user-update.component';
+import { UserViewComponent } from '../../components/view/user-view/user-view.component';
 import { UserService, User } from '../../services/user.service';
 import { ToastService } from '../../services/toast.service';
 
 
 @Component({
   selector: 'app-user',
-  imports: [CommonModule, BreadcrumbComponent, DatatableComponent, DeleteConfirmationComponent],
+  imports: [CommonModule, BreadcrumbComponent, DatatableComponent, DeleteConfirmationComponent, UserUpdateComponent, UserViewComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -21,6 +23,12 @@ export class UserComponent implements OnInit {
   isLoading = false;
   isDeletingUser = false;
   userToDelete: any = null;
+  
+  // Update modal properties
+  selectedUserId: number | null = null;
+  
+  // View modal properties
+  selectedViewUserId: number | null = null;
 
   constructor(
     private userService: UserService,
@@ -53,6 +61,8 @@ export class UserComponent implements OnInit {
       }
     });
   }
+
+
 
   // Define table columns
   tableColumns: DatatableColumn[] = [
@@ -138,14 +148,28 @@ export class UserComponent implements OnInit {
   };
 
   // Event handlers
+  
+
   viewUser(user: any) {
     console.log('View user:', user);
-    // Implement view logic here - maybe navigate to user profile
+    this.selectedViewUserId = user.id;
   }
 
   editUser(user: any) {
     console.log('Edit user:', user);
-    // Implement edit logic here - maybe open edit modal
+    this.selectedUserId = user.id;
+  }
+
+  onUserUpdated() {
+    this.loadUsers();
+  }
+
+  onModalClosed() {
+    this.selectedUserId = null;
+  }
+
+  onViewModalClosed() {
+    this.selectedViewUserId = null;
   }
 
   deleteUser(user: any) {

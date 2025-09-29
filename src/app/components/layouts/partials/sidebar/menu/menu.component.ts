@@ -28,7 +28,7 @@ export class MenuComponent {
   menuItems: MenuItem[] = [
 
     {
-      title: "Users",
+      title: "Users & Permission",
       icon : 'ki-duotone ki-user fs-2',
       isAccordion: true,
       active: true,

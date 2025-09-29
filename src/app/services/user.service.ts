@@ -71,7 +71,20 @@ export class UserService {
 
   updateUser(userId: number, userData: any) {
     const headers = this.getAuthHeaders();
-    return this.http.put<any>(`${this.apiUrl}/users/${userId}`, userData, { headers });
+    return this.http.put<any>(`${this.apiUrl}/users`, userData, { headers });
+  }
+
+  updateUserWithoutPassword(userId: number, userData: any) {
+    const headers = this.getAuthHeaders();
+    // Create a clean object without password
+    const updatePayload = {
+      id: userData.id,
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      email: userData.email,
+      role: userData.role
+    };
+    return this.http.put<any>(`${this.apiUrl}/users`, updatePayload, { headers });
   }
 
   deleteUser(userId: number) {
@@ -81,7 +94,7 @@ export class UserService {
 
   getUserById(userId: number) {
     const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.apiUrl}/users/${userId}`, { headers });
+    return this.http.get<any>(`${this.apiUrl}/users?id=${userId}`, { headers });
   }
 
   getRole() {

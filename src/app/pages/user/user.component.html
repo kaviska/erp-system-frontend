@@ -37,3 +37,16 @@
     (confirmed)="onDeleteConfirmed()"
     (cancelled)="onDeleteCancelled()">
 </app-delete-confirmation>
+
+<!-- User Update Component -->
+<app-user-update 
+    [userId]="selectedUserId"
+    (userUpdated)="onUserUpdated()"
+    (modalClosed)="onModalClosed()">
+</app-user-update>
+
+<!-- User View Component -->
+<app-user-view 
+    [userId]="selectedViewUserId"
+    (modalClosed)="onViewModalClosed()">
+</app-user-view>
