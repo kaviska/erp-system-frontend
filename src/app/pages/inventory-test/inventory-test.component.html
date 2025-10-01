@@ -1,0 +1,36 @@
+<app-breadcrumb 
+    [title]="'Inventory Management - Permission Testing'" 
+    [breadcrumbItems]="[
+        { text: 'Home', route: '/' },
+        { text: 'Dashboard', route: '/dashboard' },
+        { text: 'Permission Testing', active: false },
+        { text: 'Inventory', active: true }
+    ]"
+></app-breadcrumb>
+
+<div class="mt-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="fw-bold">
+                    <i class="ki-duotone ki-cube-3 fs-2 me-2">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                    Inventory Permission Testing Form
+                </h3>
+            </div>
+        </div>
+        <div class="">
+            <app-form-generator
+                [config]="formConfig"
+                [initialData]="initialData"
+                [loading]="loading"
+                (formSubmit)="onFormSubmit($event)"
+                (formReset)="onFormReset()"
+                (formChange)="onFormChange($event)"
+                (fieldChange)="onFieldChange($event)">
+            </app-form-generator>
+        </div>
+    </div>
+</div>

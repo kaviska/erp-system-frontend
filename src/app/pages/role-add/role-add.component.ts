@@ -55,6 +55,14 @@ export class RoleAddComponent implements OnInit {
           fullWidth: true,
           groups: [
             {
+              title: 'Dashboard & Navigation',
+              options: [
+                { value: 'dashboard.view.*', label: 'View Dashboard' },
+                { value: 'sidebar.navigation.*', label: 'Sidebar Navigation Access' },
+                { value: 'temp.navbar.*', label: 'Temp Navigation Bar Access' }
+              ]
+            },
+            {
               title: 'User Management',
               options: [
                 { value: 'user.create.*', label: 'Create Users' },
@@ -71,35 +79,60 @@ export class RoleAddComponent implements OnInit {
                 { value: 'role.update.*', label: 'Update Roles' },
                 { value: 'role.delete.*', label: 'Delete Roles' },
                 { value: 'role.view.*', label: 'View Roles' }
-
-               
               ]
             },
             {
-              title: "Temp Nav Bar",
+              title: 'Inventory Management Permissions',
               options: [
-                { value: 'temp.navbar.*', label: 'Temp Nav Bar Access' }
+                { value: 'inventory.view.*', label: 'View Inventory Module' },
+                { value: 'inventory.username.view', label: 'View Username Field' },
+                { value: 'inventory.email.view', label: 'View Email Field' },
+                { value: 'inventory.password.view', label: 'View Password Field' },
+                { value: 'inventory.confirm_password.view', label: 'View Confirm Password Field' },
+                { value: 'inventory.role.view', label: 'View Role Field' },
+                { value: 'inventory.phone.view', label: 'View Phone Field' },
+                { value: 'inventory.status.view', label: 'View Status Field' },
+                { value: 'inventory.create.*', label: 'Create Inventory Records' },
+                { value: 'inventory.update.*', label: 'Update Inventory Records' },
+                { value: 'inventory.delete.*', label: 'Delete Inventory Records' }
               ]
             },
-
             {
-              title: 'Account Management',
+              title: 'Accounts/Finance Management Permissions',
               options: [
-                { value: 'create.account.*', label: 'Create Accounts' },
-                { value: 'update.account.*', label: 'Update Accounts' },
-                { value: 'delete.account.*', label: 'Delete Accounts' },
-                { value: 'view.account.*', label: 'View Accounts' }
+                { value: 'accounts.view.*', label: 'View Accounts Module' },
+                { value: 'accounts.invoice_number.view', label: 'View Invoice Number Field' },
+                { value: 'accounts.customer_name.view', label: 'View Customer Name Field' },
+                { value: 'accounts.amount.view', label: 'View Amount Field' },
+                { value: 'accounts.tax_percentage.view', label: 'View Tax Percentage Field' },
+                { value: 'accounts.total_amount.view', label: 'View Total Amount Field' },
+                { value: 'accounts.payment_method.view', label: 'View Payment Method Field' },
+                { value: 'accounts.payment_status.view', label: 'View Payment Status Field' },
+                { value: 'accounts.due_date.view', label: 'View Due Date Field' },
+                { value: 'accounts.create.*', label: 'Create Financial Records' },
+                { value: 'accounts.update.*', label: 'Update Financial Records' },
+                { value: 'accounts.delete.*', label: 'Delete Financial Records' }
               ]
             },
             {
-              title: 'System Administration',
+              title: 'Employee Management Permissions',
               options: [
-                { value: 'system.settings.*', label: 'System Settings' },
-                { value: 'system.backup.*', label: 'System Backup' },
-                { value: 'system.logs.*', label: 'View System Logs' },
-                { value: 'system.maintenance.*', label: 'System Maintenance' }
+                { value: 'employee.view.*', label: 'View Employee Module' },
+                { value: 'employee.employee_id.view', label: 'View Employee ID Field' },
+                { value: 'employee.full_name.view', label: 'View Full Name Field' },
+                { value: 'employee.email.view', label: 'View Employee Email Field' },
+                { value: 'employee.phone.view', label: 'View Employee Phone Field' },
+                { value: 'employee.department.view', label: 'View Department Field' },
+                { value: 'employee.designation.view', label: 'View Designation Field' },
+                { value: 'employee.joining_date.view', label: 'View Joining Date Field' },
+                { value: 'employee.salary.view', label: 'View Salary Field' },
+                { value: 'employee.employment_type.view', label: 'View Employment Type Field' },
+                { value: 'employee.status.view', label: 'View Employee Status Field' },
+                { value: 'employee.create.*', label: 'Create Employee Records' },
+                { value: 'employee.update.*', label: 'Update Employee Records' },
+                { value: 'employee.delete.*', label: 'Delete Employee Records' }
               ]
-            }
+            },
           ]
         }
       ],

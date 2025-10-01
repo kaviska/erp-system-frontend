@@ -1,0 +1,40 @@
+<app-breadcrumb 
+    [title]="'Finance Management - Permission Testing'" 
+    [breadcrumbItems]="[
+        { text: 'Home', route: '/' },
+        { text: 'Dashboard', route: '/dashboard' },
+        { text: 'Permission Testing', active: false },
+        { text: 'Accounts', active: true }
+    ]"
+></app-breadcrumb>
+
+<div class="mt-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="fw-bold">
+                    <i class="ki-duotone ki-bill fs-2 me-2">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                        <span class="path4"></span>
+                        <span class="path5"></span>
+                        <span class="path6"></span>
+                    </i>
+                    Finance Permission Testing Form
+                </h3>
+            </div>
+        </div>
+        <div class="">
+            <app-form-generator
+                [config]="formConfig"
+                [initialData]="initialData"
+                [loading]="loading"
+                (formSubmit)="onFormSubmit($event)"
+                (formReset)="onFormReset()"
+                (formChange)="onFormChange($event)"
+                (fieldChange)="onFieldChange($event)">
+            </app-form-generator>
+        </div>
+    </div>
+</div>

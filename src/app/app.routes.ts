@@ -7,6 +7,9 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UserAddComponent } from './pages/user-add/user-add.component';
 import { RoleComponent } from './pages/role/role.component';
 import { RoleAddComponent } from './pages/role-add/role-add.component';
+import { InventoryTestComponent } from './pages/inventory-test/inventory-test.component';
+import { AccountsTestComponent } from './pages/accounts-test/accounts-test.component';
+import { EmployeesTestComponent } from './pages/employees-test/employees-test.component';
 
 export const routes: Routes = [
   {
@@ -46,7 +49,12 @@ export const routes: Routes = [
       { path: 'users', component: UserComponent },
       {path: 'user-add', component: UserAddComponent},
       {path: 'roles-permissions', component : RoleComponent},
-      {path: 'roles-permissions-add', component : RoleAddComponent}
+      {path: 'roles-permissions-add', component : RoleAddComponent},
+       {path: 'inventory', component: InventoryTestComponent},
+      {path: 'accounts', component: AccountsTestComponent},
+      {path: 'employees', component: EmployeesTestComponent}
+
+
       // { path: 'settings', component: SettingsComponent }
     ]
   },
