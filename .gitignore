@@ -6,7 +6,6 @@
 /out-tsc
 /bazel-out
 
-/public/assets
 
 # Node
 /node_modules
