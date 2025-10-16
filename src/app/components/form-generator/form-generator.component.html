@@ -124,8 +124,29 @@
                   <i class="fas fa-shield-alt me-2"></i>
                   {{ group.title }}
                 </div>
+                
+               
+                
                 <!-- Group Checkboxes -->
                 <div class="row">
+                   <!-- Select All Checkbox (only show if group has more than one option) -->
+                <div *ngIf="group.options && group.options.length > 1" class="mb-3">
+                  <div class="form-check select-all-checkbox">
+                    <input 
+                      type="checkbox"
+                      [id]="field.name + '_group_' + groupIndex + '_select_all'"
+                      class="form-check-input mx-1"
+                      [checked]="isGroupSelectAllChecked(field.name, group.options)"
+                      (change)="onGroupSelectAllChange(field.name, group.options, $any($event.target).checked)"
+                      [class.is-invalid]="isFieldInvalid(field.name)" />
+                    <label 
+                      class="form-check-label" 
+                      [for]="field.name + '_group_' + groupIndex + '_select_all'">
+                     
+                      Select All
+                    </label>
+                  </div>
+                </div>
                   <div 
                     *ngFor="let option of group.options; let i = index"
                     class="col-12 col-md-6 col-lg-4 checkbox-group-item">

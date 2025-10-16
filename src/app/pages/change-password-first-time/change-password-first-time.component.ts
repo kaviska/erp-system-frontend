@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService, ChangePasswordFirstTimeRequest } from '../../services/auth.service';
+import {
+  AuthService,
+  ChangePasswordFirstTimeRequest,
+} from '../../services/auth.service';
 
 declare var toastr: any;
 
@@ -11,7 +19,7 @@ declare var toastr: any;
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './change-password-first-time.component.html',
-  styleUrl: './change-password-first-time.component.css'
+  styleUrl: './change-password-first-time.component.css',
 })
 export class ChangePasswordFirstTimeComponent implements OnInit {
   changePasswordForm!: FormGroup;
@@ -31,16 +39,22 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
   }
 
   private initializeForm(): void {
-    this.changePasswordForm = this.fb.group({
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        this.passwordStrengthValidator
-      ]],
-      password_confirmation: ['', [Validators.required]]
-    }, { 
-      validators: this.passwordMatchValidator 
-    });
+    this.changePasswordForm = this.fb.group(
+      {
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            this.passwordStrengthValidator,
+          ],
+        ],
+        password_confirmation: ['', [Validators.required]],
+      },
+      {
+        validators: this.passwordMatchValidator,
+      }
+    );
   }
 
   private passwordStrengthValidator(control: any) {
@@ -53,7 +67,7 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
     const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
 
     const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
-    
+
     if (!valid) {
       return { passwordStrength: true };
     }
@@ -63,12 +77,14 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
   private passwordMatchValidator(group: FormGroup) {
     const password = group.get('password');
     const confirmPassword = group.get('password_confirmation');
-    
+
     if (!password || !confirmPassword) {
       return null;
     }
 
-    return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+    return password.value === confirmPassword.value
+      ? null
+      : { passwordMismatch: true };
   }
 
   togglePasswordVisibility(): void {
@@ -82,28 +98,35 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
   onSubmit(): void {
     if (this.changePasswordForm.valid && !this.isLoading) {
       this.isLoading = true;
-      
-      const password = this.changePasswordForm.get('password')?.value;
-      const passwordConfirmation = this.changePasswordForm.get('password_confirmation')?.value;
 
-      this.authService.changePasswordFirstTime(password, passwordConfirmation).subscribe({
-        next: (response) => {
-          this.isLoading = false;
-          
-          if (response.status === 'success') {
-            this.showSuccessToast('Password changed successfully!', 'Success');
-            
-            // Navigate to dashboard after a short delay
-            setTimeout(() => {
-              this.router.navigate(['/dashboard']);
-            }, 1500);
-          }
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.handleError(error);
-        }
-      });
+      const password = this.changePasswordForm.get('password')?.value;
+      const passwordConfirmation = this.changePasswordForm.get(
+        'password_confirmation'
+      )?.value;
+
+      this.authService
+        .changePasswordFirstTime(password, passwordConfirmation)
+        .subscribe({
+          next: (response) => {
+            this.isLoading = false;
+
+            if (response.status === 'success') {
+              this.showSuccessToast(
+                'Password changed successfully!',
+                'Success'
+              );
+
+              // Navigate to dashboard after a short delay
+              setTimeout(() => {
+                window.location.href = '/dashboard';
+              }, 1500);
+            }
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.handleError(error);
+          },
+        });
     } else {
       this.markFormGroupTouched();
     }
@@ -111,7 +134,7 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
 
   private handleError(error: any): void {
     let errorMessage = 'Failed to change password. Please try again.';
-    
+
     if (error.error && error.error.message) {
       errorMessage = error.error.message;
     } else if (error.message) {
@@ -122,7 +145,7 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
   }
 
   private markFormGroupTouched(): void {
-    Object.keys(this.changePasswordForm.controls).forEach(key => {
+    Object.keys(this.changePasswordForm.controls).forEach((key) => {
       const control = this.changePasswordForm.get(key);
       if (control) {
         control.markAsTouched();
@@ -141,21 +164,21 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
   private configureToastr(): void {
     if (typeof toastr !== 'undefined') {
       toastr.options = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toastr-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
+        closeButton: false,
+        debug: false,
+        newestOnTop: false,
+        progressBar: true,
+        positionClass: 'toastr-top-right',
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: '300',
+        hideDuration: '1000',
+        timeOut: '5000',
+        extendedTimeOut: '1000',
+        showEasing: 'swing',
+        hideEasing: 'linear',
+        showMethod: 'fadeIn',
+        hideMethod: 'fadeOut',
       };
     }
   }
@@ -169,7 +192,9 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
     const hasNumeric = /[0-9]/.test(password);
     const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
 
-    const score = [hasUpperCase, hasLowerCase, hasNumeric, hasSpecial].filter(Boolean).length;
+    const score = [hasUpperCase, hasLowerCase, hasNumeric, hasSpecial].filter(
+      Boolean
+    ).length;
 
     switch (score) {
       case 0:
@@ -195,7 +220,9 @@ export class ChangePasswordFirstTimeComponent implements OnInit {
     const hasNumeric = /[0-9]/.test(password);
     const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
 
-    const score = [hasUpperCase, hasLowerCase, hasNumeric, hasSpecial].filter(Boolean).length;
+    const score = [hasUpperCase, hasLowerCase, hasNumeric, hasSpecial].filter(
+      Boolean
+    ).length;
 
     switch (score) {
       case 0:

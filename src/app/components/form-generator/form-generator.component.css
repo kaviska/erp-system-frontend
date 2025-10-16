@@ -238,6 +238,48 @@
   margin-bottom: 0;
 }
 
+/* Select All checkbox styling */
+.select-all-checkbox {
+  padding: 0.375rem 0.5rem;
+  border-radius: 0.375rem;
+  margin-bottom: 0.75rem;
+  transition: background-color 0.15s ease-in-out;
+
+  background-color: #F8FBFF;
+}
+
+.select-all-checkbox:hover {
+  background-color: #F1F3FF;
+}
+
+.select-all-checkbox .form-check-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #009EF7;
+  margin-left: 0.25rem;
+  cursor: pointer;
+}
+
+.select-all-checkbox .form-check-input {
+  margin-top: 0.25rem;
+}
+
+.select-all-checkbox .form-check-input:checked {
+  background-color: #009EF7;
+  border-color: #009EF7;
+}
+
+.select-all-checkbox .form-check-input:indeterminate {
+  background-color: #FFB800;
+  border-color: #FFB800;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+}
+
+.select-all-checkbox .form-check-input:checked + .form-check-label {
+  color: #009EF7;
+  font-weight: 600;
+}
+
 .checkbox-group-item {
   margin-bottom: 0.5rem;
 }

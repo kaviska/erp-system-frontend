@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HasPermissionDirective } from '../../directives/has-permission.directive';
@@ -45,7 +45,7 @@ export interface FormConfig {
   templateUrl: './form-generator.component.html',
   styleUrl: './form-generator.component.css'
 })
-export class FormGeneratorComponent implements OnInit, OnChanges {
+export class FormGeneratorComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() config!: FormConfig;
   @Input() initialData?: any;
   @Input() loading = false;
@@ -57,7 +57,7 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
   form!: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.initializeForm();
@@ -70,6 +70,30 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
     if (changes['config'] && !changes['config'].firstChange) {
       this.initializeForm();
     }
+  }
+
+  ngAfterViewChecked() {
+    this.updateIndeterminateStates();
+  }
+
+  private updateIndeterminateStates() {
+    if (!this.config?.fields) return;
+    
+    this.config.fields.forEach(field => {
+      if (field.type === 'checkbox-group' && field.groups) {
+        field.groups.forEach((group, groupIndex) => {
+          if (group.options && group.options.length > 1) {
+            const selectAllId = `${field.name}_group_${groupIndex}_select_all`;
+            const selectAllElement = document.getElementById(selectAllId) as HTMLInputElement;
+            
+            if (selectAllElement) {
+              const isIndeterminate = this.isGroupSelectAllIndeterminate(field.name, group.options);
+              selectAllElement.indeterminate = isIndeterminate;
+            }
+          }
+        });
+      }
+    });
   }
 
   private initializeForm() {
@@ -318,6 +342,39 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
       }
     } else {
       newValue = newValue.filter(v => v !== value);
+    }
+
+    this.setFieldValue(fieldName, newValue);
+  }
+
+  // Methods for "Select All" functionality
+  isGroupSelectAllChecked(fieldName: string, groupOptions: {value: any, label: string}[]): boolean {
+    const fieldValue = this.getFieldValue(fieldName) || [];
+    return groupOptions.every(option => fieldValue.includes(option.value));
+  }
+
+  isGroupSelectAllIndeterminate(fieldName: string, groupOptions: {value: any, label: string}[]): boolean {
+    const fieldValue = this.getFieldValue(fieldName) || [];
+    const checkedCount = groupOptions.filter(option => fieldValue.includes(option.value)).length;
+    return checkedCount > 0 && checkedCount < groupOptions.length;
+  }
+
+  onGroupSelectAllChange(fieldName: string, groupOptions: {value: any, label: string}[], checked: boolean): void {
+    const currentValue = this.getFieldValue(fieldName) || [];
+    let newValue = [...currentValue];
+
+    if (checked) {
+      // Add all group options that aren't already selected
+      groupOptions.forEach(option => {
+        if (!newValue.includes(option.value)) {
+          newValue.push(option.value);
+        }
+      });
+    } else {
+      // Remove all group options from selection
+      newValue = newValue.filter(value => 
+        !groupOptions.some(option => option.value === value)
+      );
     }
 
     this.setFieldValue(fieldName, newValue);

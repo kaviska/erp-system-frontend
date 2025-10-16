@@ -91,9 +91,9 @@ export class LoginComponent implements OnInit {
               this.showSuccessToast('Will Redirect to Home', 'Login Success');
               
               // Navigate to dashboard after a short delay
-              setTimeout(() => {
-                this.router.navigate(['/dashboard']);
-              }, 1500);
+                setTimeout(() => {
+                window.location.href = '/dashboard';
+                }, 1500);
             }
           }
         },
