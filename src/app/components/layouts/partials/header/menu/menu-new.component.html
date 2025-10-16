@@ -1,0 +1,174 @@
+<!--begin::Menu wrapper-->
+<div
+  class="app-header-menu mt-3 app-header-mobile-drawer align-items-stretch"
+  data-kt-drawer="true"
+  data-kt-drawer-name="app-header-menu"
+  data-kt-drawer-activate="{default: true, lg: false}"
+  data-kt-drawer-overlay="true"
+  data-kt-drawer-width="225px"
+  data-kt-drawer-direction="end"
+  data-kt-drawer-toggle="#kt_app_header_menu_toggle"
+  data-kt-swapper="true"
+  data-kt-swapper-mode="{default: 'append', lg: 'prepend'}"
+  data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}"
+>
+  <!--begin::Menu-->
+  <div
+    class="menu menu-rounded menu-column menu-lg-row my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0"
+    id="kt_app_header_menu"
+    data-kt-menu="true"
+  >
+    <!-- Loop through main menu items -->
+    <div 
+      *ngFor="let item of menuItems; trackBy: trackByMenuItem"
+      [attr.data-kt-menu-trigger]="hasChildren(item) ? getMenuTrigger(item) : null"
+      [attr.data-kt-menu-placement]="hasChildren(item) ? getMenuPlacement(item) : null"
+      [class]="getMenuItemClasses(item, 0)"
+    >
+      <!-- Menu Link -->
+      <ng-container *ngIf="!item.url; else linkTemplate">
+        <span [class]="getMenuLinkClasses(item)">
+          <!-- Menu Icon (if exists) -->
+          <span *ngIf="item.icon" class="menu-icon">
+            <i [class]="item.icon + ' fs-2'">
+              <span class="path1"></span>
+              <span class="path2"></span>
+              <span class="path3"></span>
+              <span class="path4"></span>
+            </i>
+          </span>
+          
+          <!-- Menu Title -->
+          <span class="menu-title">{{ item.title }}</span>
+          
+          <!-- Menu Badge (if exists) -->
+          <span *ngIf="item.badge" [class]="'badge badge-' + item.badge.color">
+            {{ item.badge.text }}
+          </span>
+          
+          <!-- Menu Arrow (if has children) -->
+          <span *ngIf="hasChildren(item)" class="menu-arrow d-lg-none"></span>
+        </span>
+      </ng-container>
+
+      <!-- Menu Link with URL -->
+      <ng-template #linkTemplate>
+        <a 
+          [routerLink]="item.url"
+          [class]="getMenuLinkClasses(item)"
+          (click)="onMenuItemClick(item, $event)"
+        >
+          <!-- Menu Icon (if exists) -->
+          <span *ngIf="item.icon" class="menu-icon">
+            <i [class]="item.icon + ' fs-2'">
+              <span class="path1"></span>
+              <span class="path2"></span>
+              <span class="path3"></span>
+              <span class="path4"></span>
+            </i>
+          </span>
+          
+          <!-- Menu Title -->
+          <span class="menu-title">{{ item.title }}</span>
+          
+          <!-- Menu Badge (if exists) -->
+          <span *ngIf="item.badge" [class]="'badge badge-' + item.badge.color">
+            {{ item.badge.text }}
+          </span>
+        </a>
+      </ng-template>
+
+      <!-- Menu Sub (Children) -->
+      <div 
+        *ngIf="hasChildren(item)" 
+        [class]="getMenuSubClasses(item)"
+      >
+        <!-- Render children recursively -->
+        <ng-container *ngTemplateOutlet="menuItemTemplate; context: { items: item.children, level: 1 }"></ng-container>
+      </div>
+    </div>
+  </div>
+  <!--end::Menu-->
+</div>
+<!--end::Menu wrapper-->
+
+<!-- Recursive template for nested menu items -->
+<ng-template #menuItemTemplate let-items="items" let-level="level">
+  <div 
+    *ngFor="let subItem of items; trackBy: trackByMenuItem"
+    [attr.data-kt-menu-trigger]="hasChildren(subItem) ? 'click' : null"
+    [class]="getMenuItemClasses(subItem, level)"
+  >
+    <!-- Sub Menu Link -->
+    <ng-container *ngIf="!subItem.url; else subLinkTemplate">
+      <span [class]="getMenuLinkClasses(subItem)">
+        <!-- Menu Icon (if exists) -->
+        <span *ngIf="subItem.icon" class="menu-icon">
+          <i [class]="subItem.icon + ' fs-2'">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            <span class="path3"></span>
+            <span class="path4"></span>
+          </i>
+        </span>
+
+        <!-- Menu Bullet for sub items -->
+        <span *ngIf="!subItem.icon && level > 1" class="menu-bullet">
+          <span class="bullet bullet-dot"></span>
+        </span>
+        
+        <!-- Menu Title -->
+        <span class="menu-title">{{ subItem.title }}</span>
+        
+        <!-- Menu Badge (if exists) -->
+        <span *ngIf="subItem.badge" [class]="'badge badge-' + subItem.badge.color">
+          {{ subItem.badge.text }}
+        </span>
+        
+        <!-- Menu Arrow (if has children) -->
+        <span *ngIf="hasChildren(subItem)" class="menu-arrow"></span>
+      </span>
+    </ng-container>
+
+    <!-- Sub Menu Link with URL -->
+    <ng-template #subLinkTemplate>
+      <a 
+        [routerLink]="subItem.url"
+        [class]="getMenuLinkClasses(subItem)"
+        (click)="onMenuItemClick(subItem, $event)"
+      >
+        <!-- Menu Icon (if exists) -->
+        <span *ngIf="subItem.icon" class="menu-icon">
+          <i [class]="subItem.icon + ' fs-2'">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            <span class="path3"></span>
+            <span class="path4"></span>
+          </i>
+        </span>
+
+        <!-- Menu Bullet for sub items -->
+        <span *ngIf="!subItem.icon && level > 1" class="menu-bullet">
+          <span class="bullet bullet-dot"></span>
+        </span>
+        
+        <!-- Menu Title -->
+        <span class="menu-title">{{ subItem.title }}</span>
+        
+        <!-- Menu Badge (if exists) -->
+        <span *ngIf="subItem.badge" [class]="'badge badge-' + subItem.badge.color">
+          {{ subItem.badge.text }}
+        </span>
+      </a>
+    </ng-template>
+
+    <!-- Nested Sub Menu -->
+    <div 
+      *ngIf="hasChildren(subItem)" 
+      class="menu-sub menu-sub-accordion"
+    >
+      <!-- Render grandchildren recursively -->
+      <ng-container *ngTemplateOutlet="menuItemTemplate; context: { items: subItem.children, level: level + 1 }"></ng-container>
+    </div>
+  </div>
+</ng-template>

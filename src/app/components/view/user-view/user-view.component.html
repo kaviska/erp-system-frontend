@@ -1,0 +1,101 @@
+<!-- User View Modal -->
+<div class="modal fade" tabindex="-1" id="kt_modal_user_view">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">View User Details</h3>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <div *ngIf="isLoadingUserData" class="d-flex justify-content-center p-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading user data...</span>
+                    </div>
+                </div>
+                
+                <div *ngIf="!isLoadingUserData && selectedUser" class="user-details">
+                    <!-- User Avatar Section -->
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="symbol symbol-circle symbol-75px me-4">
+                            <div class="symbol-label fs-1 fw-bold text-primary bg-light-primary">
+                                {{getInitials(selectedUser.first_name, selectedUser.last_name)}}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="mb-1">{{selectedUser.first_name}} {{selectedUser.last_name}}</h4>
+                            <p class="text-muted mb-0">{{selectedUser.email}}</p>
+                        </div>
+                    </div>
+
+                    <!-- User Information Form -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="firstName" 
+                                   [value]="selectedUser.first_name"
+                                   readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="lastName" 
+                                   [value]="selectedUser.last_name"
+                                   readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" 
+                               class="form-control" 
+                               id="email" 
+                               [value]="selectedUser.email"
+                               readonly>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="role" 
+                               [value]="selectedUser.roles && selectedUser.roles.length > 0 ? selectedUser.roles[0].name : 'No role assigned'"
+                               readonly>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="createdAt" class="form-label">Created Date</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="createdAt" 
+                                   [value]="formatDate(selectedUser.created_at)"
+                                   readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="updatedAt" class="form-label">Last Updated</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="updatedAt" 
+                                   [value]="formatDate(selectedUser.updated_at)"
+                                   readonly>
+                        </div>
+                    </div>
+
+                  
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

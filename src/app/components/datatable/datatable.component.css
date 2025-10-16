@@ -1,0 +1,154 @@
+.datatable-container {
+  position: relative;
+}
+
+.table-responsive {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+/* Table cell padding and spacing */
+.table th {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--bs-gray-200);
+  background-color: var(--bs-gray-50);
+  vertical-align: middle;
+}
+
+.table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--bs-gray-100);
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover {
+  background-color: var(--bs-gray-100) !important;
+}
+
+/* Action buttons spacing */
+.btn-group-actions {
+  gap: 0.5rem;
+}
+
+.btn-group-actions .btn {
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.125rem;
+}
+
+/* Badge spacing */
+.badge {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Pagination styling */
+.pagination .page-link {
+  border: none;
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.125rem;
+  border-radius: 0.375rem;
+  color: var(--bs-gray-600);
+  font-weight: 500;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: var(--bs-gray-400);
+  cursor: not-allowed;
+}
+
+/* Sort indicator styling */
+.sort-indicator {
+  transition: all 0.2s ease;
+}
+
+/* Export menu styling */
+.export-menu {
+  min-width: 200px;
+  box-shadow: 0px 0px 50px 0px rgba(82, 63, 105, 0.15);
+  border: 1px solid var(--bs-gray-200);
+  border-radius: 0.75rem;
+}
+
+/* No data message */
+.no-data-message {
+  padding: 3rem 0;
+  color: var(--bs-gray-500);
+  font-size: 0.875rem;
+}
+
+/* Table header improvements */
+.table thead th {
+  border-top: none;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+/* Link styling in table cells */
+.table td a {
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+.table td a:hover {
+  text-decoration: underline;
+}
+
+/* Action column alignment */
+.table td:last-child {
+  white-space: nowrap;
+}
+
+/* Search input padding */
+.form-control {
+  padding: 0.75rem 1rem;
+}
+
+/* Card padding adjustments */
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-header {
+  padding: 1.25rem 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .card-toolbar {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .table-responsive {
+    font-size: 0.8rem;
+  }
+  
+  .pagination {
+    font-size: 0.8rem;
+  }
+}

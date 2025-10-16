@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <!-- Page Header -->
+<app-breadcrumb 
+    [title]="'User Management'" 
+    [breadcrumbItems]="[
+        { text: 'Home', route: '/' },
+        { text: 'Dashboard', route: '/dashboard' },
+        { text: 'Users Add', active: true }
+    ]"
+></app-breadcrumb>
+  <!-- Form Generator -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <app-form-generator
+        [config]="formConfig"
+        [initialData]="initialData"
+        [loading]="loading"
+        (formSubmit)="onFormSubmit($event)"
+        (formReset)="onFormReset()"
+        (formChange)="onFormChange($event)"
+        (fieldChange)="onFieldChange($event)">
+      </app-form-generator>
+    </div>
+  </div>
+
+  <!-- Usage Instructions (for demonstration) -->
+ 
+</div>

@@ -1,0 +1,146 @@
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Main Footer Content -->
+    <div class="footer-content">
+      <!-- Brand Section -->
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <img src="assets/media/logos/logo.svg" alt="ERP Pro" class="logo-img">
+          <h3>ERP Pro</h3>
+        </div>
+        <p class="brand-description">
+          Transform your business operations with our comprehensive ERP solution. 
+          Trusted by 10,000+ companies worldwide to streamline processes and accelerate growth.
+        </p>
+        <div class="social-links">
+          <a *ngFor="let social of socialLinks" 
+             [href]="social.href" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             [attr.aria-label]="'Follow us on ' + social.name"
+             class="social-link">
+            <i [class]="social.iconClass"></i>
+          </a>
+        </div>
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <span>+1 (555) 123-4567</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>helloerpro.com</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="footer-nav">
+        <div class="nav-section">
+          <h4>Product</h4>
+          <ul>
+            <li *ngFor="let link of productLinks">
+              <a [href]="link.href" (click)="handleNavClick($event, link.href)">
+                {{ link.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <h4>Company</h4>
+          <ul>
+            <li *ngFor="let link of companyLinks">
+              <a [href]="link.href" (click)="handleNavClick($event, link.href)">
+                {{ link.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <h4>Resources</h4>
+          <ul>
+            <li *ngFor="let link of resourceLinks">
+              <a [href]="link.href" (click)="handleNavClick($event, link.href)">
+                {{ link.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <h4>Support</h4>
+          <ul>
+            <li *ngFor="let link of supportLinks">
+              <a [href]="link.href" (click)="handleNavClick($event, link.href)">
+                {{ link.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Newsletter Section -->
+      <div class="footer-newsletter">
+        <h4>Stay Updated</h4>
+        <p>Get the latest product updates, industry insights, and exclusive offers.</p>
+        <form class="newsletter-form" (ngSubmit)="onNewsletterSubmit($event)">
+          <div class="input-group">
+            <input 
+              type="email" 
+              [(ngModel)]="newsletterEmail"
+              name="email"
+              placeholder="Enter your email"
+              class="newsletter-input"
+              required>
+            <button 
+              type="submit" 
+              class="newsletter-btn"
+              [disabled]="isSubmittingNewsletter"
+              [class.success]="newsletterSuccess">
+              <i class="fas fa-paper-plane" *ngIf="!isSubmittingNewsletter && !newsletterSuccess"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isSubmittingNewsletter"></i>
+              <i class="fas fa-check" *ngIf="newsletterSuccess"></i>
+            </button>
+          </div>
+          <p class="newsletter-disclaimer">
+            We respect your privacy. Unsubscribe at any time.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <div class="copyright">
+          <p>&copy; {{ currentYear }} ERP Pro. All rights reserved.</p>
+        </div>
+        
+        <div class="legal-links">
+          <a *ngFor="let link of legalLinks" 
+             [href]="link.href" 
+             (click)="handleNavClick($event, link.href)">
+            {{ link.name }}
+          </a>
+        </div>
+        
+        <button 
+          class="back-to-top" 
+          (click)="scrollToTop()" 
+          [class.visible]="showBackToTop"
+          aria-label="Back to top">
+          <i class="fas fa-chevron-up"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Decoration -->
+  <div class="footer-decoration">
+    <div class="decoration-circle circle-1"></div>
+    <div class="decoration-circle circle-2"></div>
+    <div class="decoration-circle circle-3"></div>
+  </div>
+</footer>

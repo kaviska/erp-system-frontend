@@ -1,0 +1,52 @@
+<app-breadcrumb 
+    [title]="'User Management'" 
+    [breadcrumbItems]="[
+        { text: 'Home', route: '/' },
+        { text: 'Dashboard', route: '/dashboard' },
+        { text: 'Users', active: true }
+    ]"
+></app-breadcrumb>
+
+<div class="mt-5">
+    <div *ngIf="isLoading" class="d-flex justify-content-center p-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    
+    <app-datatable
+        *ngIf="!isLoading"
+        [title]="'User Management'"
+        [columns]="tableColumns"
+        [data]="userData"
+        [config]="tableConfig"
+        [actions]="tableActions"
+        (rowClick)="onRowClick($event)"
+        (export)="onExport($event)"
+        (customAction)="onRowClick($event)"
+    ></app-datatable>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<app-delete-confirmation
+    #deleteConfirmation
+    [itemType]="'user'"
+    [itemName]="userToDelete ? (userToDelete.first_name + ' ' + userToDelete.last_name) : ''"
+    [isDestructive]="true"
+    [isLoading]="isDeletingUser"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()">
+</app-delete-confirmation>
+
+<!-- User Update Component -->
+<app-user-update 
+    [userId]="selectedUserId"
+    (userUpdated)="onUserUpdated()"
+    (modalClosed)="onModalClosed()">
+</app-user-update>
+
+<!-- User View Component -->
+<app-user-view 
+    [userId]="selectedViewUserId"
+    (modalClosed)="onViewModalClosed()">
+</app-user-view>

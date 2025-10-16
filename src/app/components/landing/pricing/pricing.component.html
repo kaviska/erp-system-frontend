@@ -1,0 +1,75 @@
+<section id="pricing" class="pricing-section">
+  <div class="pricing-container">
+    <div class="section-header">
+      <span class="section-badge">Pricing</span>
+      <h2 class="section-title">Simple, Transparent Pricing</h2>
+      <p class="section-description">
+        Choose the perfect plan for your business. All plans include our core ERP features 
+        with no hidden fees or setup costs.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="pricing-card" 
+           *ngFor="let plan of pricingPlans" 
+           [class.popular]="plan.popular"
+           [attr.data-color]="plan.color">
+        
+        <div class="popular-badge" *ngIf="plan.popular">
+          <span>Most Popular</span>
+        </div>
+        
+        <div class="plan-header">
+          <h3>{{ plan.name }}</h3>
+          <div class="plan-price">
+            <span class="price" *ngIf="plan.price !== 'Custom'">${{ plan.price }}</span>
+            <span class="price custom" *ngIf="plan.price === 'Custom'">{{ plan.price }}</span>
+            <span class="period">{{ plan.period }}</span>
+          </div>
+          <p class="plan-description">{{ plan.description }}</p>
+        </div>
+
+        <div class="plan-features">
+          <ul>
+            <li *ngFor="let feature of plan.features">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              {{ feature }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="plan-action">
+          <button class="plan-button" 
+                  [class]="'btn-' + plan.color"
+                  (click)="onSelectPlan(plan)">
+            {{ plan.buttonText }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-faq">
+      <h3>Frequently Asked Questions</h3>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>Do you offer a free trial?</h4>
+          <p>Yes! All plans come with a 14-day free trial with full access to features.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I change plans anytime?</h4>
+          <p>Absolutely. You can upgrade or downgrade your plan at any time.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What payment methods do you accept?</h4>
+          <p>We accept all major credit cards, PayPal, and ACH transfers for Enterprise plans.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Is there a setup fee?</h4>
+          <p>No setup fees for any plan. You only pay the monthly subscription.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

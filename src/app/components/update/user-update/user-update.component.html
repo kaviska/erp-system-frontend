@@ -1,0 +1,97 @@
+<!-- User Update Modal -->
+<div class="modal fade" tabindex="-1" id="kt_modal_user_update">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Update User</h3>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <div *ngIf="isLoadingUserData" class="d-flex justify-content-center p-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading user data...</span>
+                    </div>
+                </div>
+                
+                <form *ngIf="!isLoadingUserData && selectedUser" #updateUserForm="ngForm" (ngSubmit)="onUpdateUser()">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName" class="form-label required">First Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="firstName" 
+                                   name="firstName"
+                                   [(ngModel)]="updateUserData.first_name"
+                                   required
+                                   #firstName="ngModel">
+                            <div *ngIf="firstName.invalid && firstName.touched" class="text-danger small mt-1">
+                                First name is required
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label required">Last Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="lastName" 
+                                   name="lastName"
+                                   [(ngModel)]="updateUserData.last_name"
+                                   required
+                                   #lastName="ngModel">
+                            <div *ngIf="lastName.invalid && lastName.touched" class="text-danger small mt-1">
+                                Last name is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label required">Email</label>
+                        <input type="email" 
+                               class="form-control" 
+                               id="email" 
+                               name="email"
+                               [(ngModel)]="updateUserData.email"
+                               required
+                               email
+                               #email="ngModel">
+                        <div *ngIf="email.invalid && email.touched" class="text-danger small mt-1">
+                            <span *ngIf="email.errors?.['required']">Email is required</span>
+                            <span *ngIf="email.errors?.['email']">Please enter a valid email</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label required">Role</label>
+                        <select class="form-select" 
+                                id="role" 
+                                name="role"
+                                [(ngModel)]="updateUserData.role"
+                                required
+                                #role="ngModel">
+                            <option value="">Select Role</option>
+                            <option *ngFor="let role of availableRoles" [value]="role.id">
+                                {{role.name}}
+                            </option>
+                        </select>
+                        <div *ngIf="role.invalid && role.touched" class="text-danger small mt-1">
+                            Role is required
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" 
+                        class="btn btn-primary" 
+                        [disabled]="!isUpdateFormValid() || isUpdatingUser || isLoadingUserData"
+                        (click)="onUpdateUser()">
+                    <span *ngIf="isUpdatingUser" class="spinner-border spinner-border-sm me-2" role="status"></span>
+                    {{isUpdatingUser ? 'Updating...' : 'Update User'}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+/* User View Modal Styles */
+.user-details .symbol-label {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Read-only input styling */
+.user-details input[readonly] {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  color: #495057;
+  cursor: default;
+}
+
+.user-details input[readonly]:focus {
+  box-shadow: none;
+  border-color: #e9ecef;
+  background-color: #f8f9fa;
+}
+
+/* Success and danger text colors for verification status */
+.text-success {
+  color: #28a745 !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+/* Modal specific styles */
+.modal-dialog.modal-lg {
+  max-width: 900px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #e9ecef;
+  padding: 1.5rem;
+}
+
+.modal-body {
+  padding: 2rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  border-top: 1px solid #e9ecef;
+  padding: 1rem 1.5rem;
+}
+
+/* Avatar section */
+.symbol.symbol-circle {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.symbol-75px {
+  width: 75px;
+  height: 75px;
+}
+
+.symbol-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+/* Form labels */
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .modal-dialog.modal-lg {
+    max-width: 95vw;
+    margin: 0.5rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  .d-flex.align-items-center {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .symbol.symbol-circle.symbol-75px.me-4 {
+    margin-bottom: 1rem;
+    margin-right: 0 !important;
+  }
+}
